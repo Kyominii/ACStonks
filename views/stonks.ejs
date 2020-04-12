@@ -2,12 +2,10 @@
     Pseudo: <%= user.username %><br/>
 </p>
 
-<% if (currentTimeslot !== "sunday") { %>
-
 <table>
     <thead>
         <tr>
-            <th colspan="2">L'ensemble des valeurs du court de vos navets</th>
+            <th colspan="2">Les prix de vos navets</th>
         </tr>
     </thead>
     <tbody>
@@ -41,7 +39,7 @@ var myChart = new Chart(ctx, {
     labels: labels,
     datasets: [
       {
-        label: ["Prix du navet"],
+        label: ["Evolution du prix des navets"],
         data: prices,
         backgroundColor: [
           "rgba(255, 99, 132, 0.2)",
@@ -82,15 +80,16 @@ var myChart = new Chart(ctx, {
 
 </script>
 
+<% if (currentTimeslot !== "sunday") { %>
     <% if(!spectateMode) { %>
-    <p>Ajout d'une nouvelle valeur (pour <%= currentTimeslot %>)</p>
+    <p>Ajouter/modifier une valeur (pour <%= currentTimeslot %>)</p>
     <form action="/stonks" method="post">
         <div>
         <label>Cours du navet:</label>
         <input type="number" name="turntipPrice"/>
         </div>
         <div>
-        <input type="submit" value="Ajouter"/>
+        <input type="submit" value="Ajouter/Modifier"/>
         </div>
     </form>
     <% } %>
@@ -99,7 +98,13 @@ var myChart = new Chart(ctx, {
 <% } %>
 
 <% if(!spectateMode) { %>
+<form action="/stonks/reset" method="get"> 
+    <button type="submit">Supprimer les valeurs</button>
+</form>
 <a href="/logout">Deconnexion</a>
 <% } else { %>
 <a href="/stonks">Revenir sur son STONKS</a>
 <% } %>
+<br><br><br>
+<img src="https://pbs.twimg.com/media/EUT4ZTWVAAA7S9V?format=jpg&name=large" />
+<img src="https://pbs.twimg.com/media/EUT4aS1UEAAz73u?format=jpg&name=medium" />

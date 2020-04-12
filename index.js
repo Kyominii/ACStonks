@@ -39,6 +39,58 @@ const timeslots = {
     }
 }
 
+let baseStonks = [
+    {
+        timeslot: 'lundi matin',
+        price: 'undefined'
+    },
+    {
+        timeslot: 'lundi après-midi',
+        price: 'undefined'
+    },
+    {
+        timeslot: 'mardi matin',
+        price: 'undefined'
+    },
+    {
+        timeslot: 'mardi après-midi',
+        price: 'undefined'
+    },
+    {
+        timeslot: 'mercredi matin',
+        price: 'undefined'
+    },
+    {
+        timeslot: 'mercredi après-midi',
+        price: 'undefined'
+    },
+    {
+        timeslot: 'jeudi matin',
+        price: 'undefined'
+    },
+    {
+        timeslot: 'jeudi après-midi',
+        price: 'undefined'
+    },
+    {
+        timeslot: 'vendredi matin',
+        price: 'undefined'
+    },
+    {
+        timeslot: 'vendredi après-midi',
+        price: 'undefined'
+    },
+    {
+        timeslot: 'samedi matin',
+        price: 'undefined'
+    },
+    {
+        timeslot: 'samedi après-midi',
+        price: 'undefined'
+    }
+
+];
+
 // Configure the local strategy for use by Passport.
 //
 // The local strategy require a `verify` function which receives the credentials
@@ -141,57 +193,7 @@ app.post('/register',
         if (user == undefined) {
 
             db.get('users')
-                .push({ username: username, password: pwd, stonks: [
-                    {
-                        timeslot: 'lundi matin',
-                        price: 'undefined'
-                    },
-                    {
-                        timeslot: 'lundi après-midi',
-                        price: 'undefined'
-                    },
-                    {
-                        timeslot: 'mardi matin',
-                        price: 'undefined'
-                    },
-                    {
-                        timeslot: 'mardi après-midi',
-                        price: 'undefined'
-                    },
-                    {
-                        timeslot: 'mercredi matin',
-                        price: 'undefined'
-                    },
-                    {
-                        timeslot: 'mercredi après-midi',
-                        price: 'undefined'
-                    },
-                    {
-                        timeslot: 'jeudi matin',
-                        price: 'undefined'
-                    },
-                    {
-                        timeslot: 'jeudi après-midi',
-                        price: 'undefined'
-                    },
-                    {
-                        timeslot: 'vendredi matin',
-                        price: 'undefined'
-                    },
-                    {
-                        timeslot: 'vendredi après-midi',
-                        price: 'undefined'
-                    },
-                    {
-                        timeslot: 'samedi matin',
-                        price: 'undefined'
-                    },
-                    {
-                        timeslot: 'samedi après-midi',
-                        price: 'undefined'
-                    }
-
-                ] })
+                .push({ username: username, password: pwd, stonks: baseStonks })
                 .write();
 
             res.redirect('/login');
@@ -210,6 +212,16 @@ app.get('/stonks',
     connectEnsureLogin.ensureLoggedIn(),
     function (req, res) {
         res.render('stonks', { user: req.user, currentTimeslot: getCurrentTimeslot(), spectateMode: false });
+    });
+
+app.get('/stonks/reset',
+    connectEnsureLogin.ensureLoggedIn(),
+    function (req, res) {
+        let user = db.get('users')
+            .find({ username: req.user.username })
+            .assign({ stonks: baseStonks })
+            .write();
+        res.redirect('/stonks');
     });
 
 app.get('/stonks/:username',
