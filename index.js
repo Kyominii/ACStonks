@@ -270,13 +270,13 @@ let getCurrentTimeslot = () => {
     let hour = date.getHours();
 
     switch (day) {
-        case 0:
+        /*case 0:
             if (hour < 12) {
                 return timeslots.MONDAY.MORNING;
             } else {
                 return timeslots.MONDAY.AFTERNOON;
             }
-            break;
+            break;*/
         case 1:
             if (hour >= 12) {
                 return timeslots.MONDAY.MORNING;
