@@ -1,5 +1,12 @@
+<style>
+    body {
+        background-image: url("https://risibank.fr/cache/stickers/d1276/127649-full.png");
+    }
+    
+</style>
+
 <% if (!user) { %>
-	<p>Bienvenue sur Animal Crossing Stonks ! <a href="/login">Identifie toi</a> ou <a href="/register">inscrit toi</a> :)</p>
+	<p>Bienvenue sur Animal Crossing Stonks ! <a href="/login">Identifie toi</a> ou <a href="/register">viendez</a> :)</p>
 <% } else { %>
 	<p>Salut, <%= user.username %>. Tu peux éditer les valeurs de tes <a href="/stonks">stonks ici</a>.</p>
 	<a href="/logout">Deconnexion</a>

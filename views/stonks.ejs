@@ -1,3 +1,14 @@
+<style>
+    body {
+        background-image: url("https://risibank.fr/cache/stickers/d1276/127649-full.png");
+    }
+
+    canvas {
+        background-color: white;
+    }
+    
+</style>
+
 <p>
     Pseudo: <%= user.username %><br/>
 </p>
@@ -94,7 +105,7 @@ var myChart = new Chart(ctx, {
     </form>
     <% } %>
 <% } else { %>
-<p>On est dimanche, pas possible d'ajouter de valeur oggi ;-; </p>
+<p>On est dimanche, pas possible d'ajouter de valeur aujourd'hui ;-; </p>
 <% } %>
 
 <% if(!spectateMode) { %>
@@ -103,7 +114,7 @@ var myChart = new Chart(ctx, {
 </form>
 <a href="/logout">Deconnexion</a>
 <% } else { %>
-<a href="/stonks">Revenir sur son STONKS</a>
+<a href="/stonks">Revenir sur tes STONKS</a>
 <% } %>
 <br><br><br>
 <img src="https://pbs.twimg.com/media/EUT4ZTWVAAA7S9V?format=jpg&name=large" />
