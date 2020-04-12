@@ -1,0 +1,6 @@
+<% if (!user) { %>
+	<p>Bienvenue sur Animal Crossing Stonks ! <a href="/login">Identifie toi</a> ou <a href="/register">inscrit toi</a> :)</p>
+<% } else { %>
+	<p>Salut, <%= user.username %>. Tu peux éditer les valeurs de tes <a href="/stonks">stonks ici</a>.</p>
+	<a href="/logout">Deconnexion</a>
+<% } %>

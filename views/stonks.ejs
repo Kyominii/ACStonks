@@ -1,0 +1,105 @@
+<p>
+    Pseudo: <%= user.username %><br/>
+</p>
+
+<% if (currentTimeslot !== "sunday") { %>
+
+<table>
+    <thead>
+        <tr>
+            <th colspan="2">L'ensemble des valeurs du court de vos navets</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% user.stonks.forEach(function(stonk) { %>
+        <% if(stonk.price !== "undefined") { %>
+        <tr>
+            <td><%= stonk.timeslot %></td>
+            <td><%= stonk.price %></td>
+        </tr>
+        <% } %>
+        <% }); %>
+    </tbody>
+</table>
+
+<div id="app">
+    <canvas id="myChart" width="400" height="400"></canvas>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js" integrity="sha256-R4pqcOYV8lt7snxMQO/HSbVCFRPMdrhAFMH+vr9giYI=" crossorigin="anonymous"></script>
+
+<script>
+
+var stonks = JSON.parse('<%- JSON.stringify(user.stonks) %>');
+var labels = stonks.map(x => x.timeslot);
+var prices = stonks.map(x => parseInt(x.price));
+
+var ctx = document.getElementById("myChart");
+var myChart = new Chart(ctx, {
+  type: "line",
+  data: {
+    labels: labels,
+    datasets: [
+      {
+        label: ["Prix du navet"],
+        data: prices,
+        backgroundColor: [
+          "rgba(255, 99, 132, 0.2)",
+          "rgba(54, 162, 235, 0.2)",
+          "rgba(255, 206, 86, 0.2)",
+          "rgba(75, 192, 192, 0.2)",
+          "rgba(153, 102, 255, 0.2)",
+          "rgba(255, 159, 64, 0.2)"
+        ],
+        borderColor: "rgba(255,99,132,1)",
+        borderWidth: 1
+      }
+    ]
+  },
+  options: {
+    maintainAspectRatio: false,
+    scales: {
+      xAxes: [
+        {
+          type: "category",
+          labels: labels,
+          gridLines: {
+            display: false
+          }
+          // barThickness: 10
+        }
+      ],
+      yAxes: [
+        {
+          gridLines: {
+            // drawTicks: false
+          }
+        }
+      ]
+    }
+  }
+});
+
+</script>
+
+    <% if(!spectateMode) { %>
+    <p>Ajout d'une nouvelle valeur (pour <%= currentTimeslot %>)</p>
+    <form action="/stonks" method="post">
+        <div>
+        <label>Cours du navet:</label>
+        <input type="number" name="turntipPrice"/>
+        </div>
+        <div>
+        <input type="submit" value="Ajouter"/>
+        </div>
+    </form>
+    <% } %>
+<% } else { %>
+<p>On est dimanche, pas possible d'ajouter de valeur oggi ;-; </p>
+<% } %>
+
+<% if(!spectateMode) { %>
+<a href="/logout">Deconnexion</a>
+<% } else { %>
+<a href="/stonks">Revenir sur son STONKS</a>
+<% } %>
