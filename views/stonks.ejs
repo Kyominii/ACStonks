@@ -11,9 +11,6 @@
 
 <p>
     Pseudo: <%= user.username %><br/>
-    <% if(currentHour) { %>
-      Il est <% currentHour %> heure
-    <% } %>
 </p>
 
 <table>
@@ -95,7 +92,7 @@ var myChart = new Chart(ctx, {
 </script>
 
 <% if (currentTimeslot !== "sunday") { %>
-    <% if(!spectateMode) { %>
+
     <p>Ajouter/modifier une valeur (pour <%= currentTimeslot %>)</p>
     <form action="/stonks" method="post">
         <div>
@@ -106,19 +103,16 @@ var myChart = new Chart(ctx, {
         <input type="submit" value="Ajouter/Modifier"/>
         </div>
     </form>
-    <% } %>
+
 <% } else { %>
 <p>On est dimanche, pas possible d'ajouter de valeur aujourd'hui ;-; </p>
 <% } %>
 
-<% if(!spectateMode) { %>
 <form action="/stonks/reset" method="get"> 
     <button type="submit">Supprimer les valeurs</button>
 </form>
 <a href="/logout">Deconnexion</a>
-<% } else { %>
-<a href="/stonks">Revenir sur tes STONKS</a>
-<% } %>
+
 <br><br><br>
 <img src="https://pbs.twimg.com/media/EUT4ZTWVAAA7S9V?format=jpg&name=large" />
 <img src="https://pbs.twimg.com/media/EUT4aS1UEAAz73u?format=jpg&name=medium" />

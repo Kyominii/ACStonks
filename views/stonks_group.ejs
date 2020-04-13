@@ -1,0 +1,81 @@
+<style>
+    body {
+        background-image: url("https://risibank.fr/cache/stickers/d1276/127649-full.png");
+    }
+
+    canvas, p {
+        background-color: white;
+    }
+    
+</style>
+
+<div id="app">
+    <canvas id="myChart" width="400" height="400"></canvas>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js" integrity="sha256-R4pqcOYV8lt7snxMQO/HSbVCFRPMdrhAFMH+vr9giYI=" crossorigin="anonymous"></script>
+
+<script>
+
+var dynamicColors = function() {
+    var r = Math.floor(Math.random() * 255);
+    var g = Math.floor(Math.random() * 255);
+    var b = Math.floor(Math.random() * 255);
+    return "rgb(" + r + "," + g + "," + b;
+}
+
+var users = JSON.parse('<%- JSON.stringify(users) %>');
+var datasets = []
+var labels = users[0].stonks.map(x => x.timeslot);
+
+users.forEach((user) => {
+  var color = dynamicColors();
+  var dataset = {
+    label: [user.username],
+    data: user.stonks.map(x => parseInt(x.price)),
+    backgroundColor: color + ", 0.03)",
+    borderColor: color + ", 1)",
+    borderWidth: 1
+  };
+
+  datasets.push(dataset);
+});
+
+var ctx = document.getElementById("myChart");
+var myChart = new Chart(ctx, {
+  type: "line",
+  data: {
+    labels: labels,
+    datasets: datasets
+  },
+  options: {
+    maintainAspectRatio: false,
+    scales: {
+      xAxes: [
+        {
+          type: "category",
+          labels: labels,
+          gridLines: {
+            display: false
+          }
+          // barThickness: 10
+        }
+      ],
+      yAxes: [
+        {
+          gridLines: {
+            // drawTicks: false
+          }
+        }
+      ]
+    }
+  }
+});
+
+</script>
+
+<a href="/logout">Reviendre sur tes stonks</a>
+
+<br><br><br>
+<img src="https://pbs.twimg.com/media/EUT4ZTWVAAA7S9V?format=jpg&name=large" />
+<img src="https://pbs.twimg.com/media/EUT4aS1UEAAz73u?format=jpg&name=medium" />

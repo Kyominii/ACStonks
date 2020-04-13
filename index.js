@@ -211,9 +211,7 @@ app.get('/logout',
 app.get('/stonks',
     connectEnsureLogin.ensureLoggedIn(),
     function (req, res) {
-        let date = new Date();
-        let hour = date.getHours();
-        res.render('stonks', { user: req.user, currentTimeslot: getCurrentTimeslot(), spectateMode: false, currentHour: hour });
+        res.render('stonks', { user: req.user, currentTimeslot: getCurrentTimeslot(), spectateMode: false });
     });
 
 app.get('/stonks/reset',
@@ -226,19 +224,23 @@ app.get('/stonks/reset',
         res.redirect('/stonks');
     });
 
-app.get('/stonks/:username',
+app.get('/stonks/:usernames',
     connectEnsureLogin.ensureLoggedIn(),
     function (req, res) {
-        let username = req.params.username;
-        let user = db.get('users')
-            .find({ username: username })
-            .value();
+        let usernames = req.params.usernames.split(',');
+        let users = [];
 
-        if (user == undefined) {
-            res.redirect('/stonks');
-        } else {
-            res.render('stonks', { user: user, currentTimeslot: getCurrentTimeslot(), spectateMode: true });
-        }
+        usernames.forEach((x) => {
+            let user = db.get('users')
+                .find({ username: x })
+                .value();
+
+            if (user != undefined) {
+                users.push(user);
+            }
+        });
+
+        res.render('stonks_group', { users: users });
     });
 
 app.post('/stonks',
@@ -252,9 +254,7 @@ app.post('/stonks',
         let index = newStonks.findIndex(x => x.timeslot === currentTimeslot)
         if (index !== -1) {
             newStonks[index].price = price;
-        }/* else {
-            newStonks.push({ timeslot: currentTimeslot, price: price });
-        }*/
+        }
 
         let user = db.get('users')
             .find({ username: req.user.username })
@@ -280,42 +280,42 @@ let getCurrentTimeslot = () => {
             }
             break;*/
         case 1:
-            if (hour <= 12) {
+            if (hour < 12) {
                 return timeslots.MONDAY.MORNING;
             } else {
                 return timeslots.MONDAY.AFTERNOON;
             }
             break;
         case 2:
-            if (hour <= 12) {
+            if (hour < 12) {
                 return timeslots.TUESDAY.MORNING;
             } else {
                 return timeslots.TUESDAY.AFTERNOON;
             }
             break;
         case 3:
-            if (hour <= 12) {
+            if (hour < 12) {
                 return timeslots.WEDNESDAY.MORNING;
             } else {
                 return timeslots.WEDNESDAY.AFTERNOON;
             }
             break;
         case 4:
-            if (hour <= 12) {
+            if (hour < 12) {
                 return timeslots.THURSDAY.MORNING;
             } else {
                 return timeslots.THURSDAY.AFTERNOON;
             }
             break;
         case 5:
-            if (hour <= 12) {
+            if (hour < 12) {
                 return timeslots.FRIDAY.MORNING;
             } else {
                 return timeslots.FRIDAY.AFTERNOON;
             }
             break;
         case 6:
-            if (hour <= 12) {
+            if (hour < 12) {
                 return timeslots.SATURDAY.MORNING;
             } else {
                 return timeslots.SATURDAY.AFTERNOON;
