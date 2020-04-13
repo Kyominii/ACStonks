@@ -3,7 +3,7 @@
         background-image: url("https://risibank.fr/cache/stickers/d1276/127649-full.png");
     }
 
-    canvas {
+    canvas, p {
         background-color: white;
     }
     
@@ -11,6 +11,9 @@
 
 <p>
     Pseudo: <%= user.username %><br/>
+    <% if(currentHour) { %>
+      Il est <% currentHour %> heure
+    <% } %>
 </p>
 
 <table>

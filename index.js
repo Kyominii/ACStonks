@@ -211,7 +211,9 @@ app.get('/logout',
 app.get('/stonks',
     connectEnsureLogin.ensureLoggedIn(),
     function (req, res) {
-        res.render('stonks', { user: req.user, currentTimeslot: getCurrentTimeslot(), spectateMode: false });
+        let date = new Date();
+        let hour = date.getHours();
+        res.render('stonks', { user: req.user, currentTimeslot: getCurrentTimeslot(), spectateMode: false, currentHour: hour });
     });
 
 app.get('/stonks/reset',
@@ -278,42 +280,42 @@ let getCurrentTimeslot = () => {
             }
             break;*/
         case 1:
-            if (hour >= 12) {
+            if (hour <= 12) {
                 return timeslots.MONDAY.MORNING;
             } else {
                 return timeslots.MONDAY.AFTERNOON;
             }
             break;
         case 2:
-            if (hour >= 12) {
+            if (hour <= 12) {
                 return timeslots.TUESDAY.MORNING;
             } else {
                 return timeslots.TUESDAY.AFTERNOON;
             }
             break;
         case 3:
-            if (hour >= 12) {
+            if (hour <= 12) {
                 return timeslots.WEDNESDAY.MORNING;
             } else {
                 return timeslots.WEDNESDAY.AFTERNOON;
             }
             break;
         case 4:
-            if (hour >= 12) {
+            if (hour <= 12) {
                 return timeslots.THURSDAY.MORNING;
             } else {
                 return timeslots.THURSDAY.AFTERNOON;
             }
             break;
         case 5:
-            if (hour >= 12) {
+            if (hour <= 12) {
                 return timeslots.FRIDAY.MORNING;
             } else {
                 return timeslots.FRIDAY.AFTERNOON;
             }
             break;
         case 6:
-            if (hour >= 12) {
+            if (hour <= 12) {
                 return timeslots.SATURDAY.MORNING;
             } else {
                 return timeslots.SATURDAY.AFTERNOON;
